@@ -35,6 +35,18 @@ services:
             MYSQL_ROOT_PASSWORD: "root"
             MYSQL_DATABASE: laravel
 
+    rabbitmq:
+        image: rabbitmq:3.9.11-management
+        container_name: rabbitmq
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+        volumes:
+            - rabbitmq:/var/lib/rabbitmq
+            - rabbitmq-logs:/var/log/rabbitmq
+        networks:
+            - network
+
     redis:
         container_name: db-redis
         build:
@@ -47,3 +59,10 @@ services:
 # добавление конфигов либо через dockerfile либо так
 #        volumes:
 #            - ./docker/redis/data:/var/lib/redis
+networks:
+        network:
+            driver: bridge
+
+volumes:
+        rabbitmq:
+        rabbitmq-logs:
